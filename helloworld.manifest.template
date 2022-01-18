@@ -1,0 +1,27 @@
+# Hello World manifest file example
+
+loader.preload = "file:{{ gramine.libos }}" # for compatibility with v1.0
+
+loader.entrypoint = "file:{{ gramine.libos }}"
+libos.entrypoint = "helloworld"
+loader.log_level = "trace"
+loader.argv0_override = "helloworld"
+
+loader.env.LD_LIBRARY_PATH = "/lib"
+
+fs.mount.lib.type = "chroot"
+fs.mount.lib.path = "/lib"
+fs.mount.lib.uri = "file:{{ gramine.runtimedir() }}"
+
+sgx.debug = true
+sgx.nonpie_binary = true
+
+sgx.trusted_files = [
+  "file:{{ gramine.libos }}",
+  "file:helloworld",
+  "file:{{ gramine.runtimedir() }}/",
+]
+
+sgx.protected_mrenclave_files = [
+  "file:protected",
+}
